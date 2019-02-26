@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   node-1:
     image: quay.io/coreos/etcd:v3.3.12
@@ -8,6 +8,8 @@ services:
       - /etc/etcd.conf
     volumes:
       - "./etcd-1.conf.yml:/etc/etcd.conf"
+    ports:
+      - 2001:2379
   node-2:
     image: quay.io/coreos/etcd:v3.3.12
     command:
@@ -16,6 +18,8 @@ services:
       - /etc/etcd.conf
     volumes:
       - "./etcd-2.conf.yml:/etc/etcd.conf"
+    ports:
+      - 2002:2379
   node-3:
     image: quay.io/coreos/etcd:v3.3.12
     command:
@@ -24,3 +28,5 @@ services:
       - /etc/etcd.conf
     volumes:
       - "./etcd-3.conf.yml:/etc/etcd.conf"
+    ports:
+      - 2003:2379
