@@ -7,7 +7,7 @@ services:
       - --config-file
       - /etc/etcd.conf
     volumes:
-      - "./etcd-1.conf.yml:/etc/etcd.conf"
+      - "./conf/etcd-1.conf.yml:/etc/etcd.conf"
     ports:
       - 2001:2379
   node-2:
@@ -17,7 +17,7 @@ services:
       - --config-file
       - /etc/etcd.conf
     volumes:
-      - "./etcd-2.conf.yml:/etc/etcd.conf"
+      - "./conf/etcd-2.conf.yml:/etc/etcd.conf"
     ports:
       - 2002:2379
   node-3:
@@ -27,6 +27,6 @@ services:
       - --config-file
       - /etc/etcd.conf
     volumes:
-      - "./etcd-3.conf.yml:/etc/etcd.conf"
+      - "./conf/etcd-3.conf.yml:/etc/etcd.conf"
     ports:
       - 2003:2379
