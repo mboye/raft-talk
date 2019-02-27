@@ -80,7 +80,11 @@ func (h *indexHandler) watchBackgroundColor() {
 	for change := range changes {
 		for _, event := range change.Events {
 			if string(event.Kv.Key) == backgroundColorConfigKey {
-				oldValue := string(event.PrevKv.Value)
+				oldValue := ""
+				if event.PrevKv != nil {
+					oldValue = string(event.PrevKv.Value)
+				}
+
 				newValue := string(event.Kv.Value)
 				log.WithFields(log.Fields{
 					"old_value": oldValue,
