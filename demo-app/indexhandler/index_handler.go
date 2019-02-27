@@ -17,7 +17,7 @@ type indexHandler struct {
 	clusterClient   *clientv3.Client
 	indexTemplate   *template.Template
 	backgroundColor string
-	mutex           sync.RWMutex
+	mutex           sync.Mutex
 }
 
 // New returns a new request handler for the index page
@@ -59,19 +59,19 @@ func (h *indexHandler) loadBackgroundColor() {
 	}
 
 	h.mutex.Lock()
-	defer h.mutex.Unlock()
 	h.backgroundColor = backgroundColor
+	h.mutex.Unlock()
 	log.WithField("background_color", backgroundColor).Info("current background color")
 }
 
 func (h *indexHandler) ServeHTTP(response http.ResponseWriter, request *http.Request) {
-	h.mutex.RLock()
-	defer h.mutex.RUnlock()
+	h.mutex.Lock()
 	h.indexTemplate.ExecuteTemplate(response, "index.html", h.backgroundColor)
 	log.WithFields(log.Fields{
 		"path":       request.URL.Path,
 		"method":     request.Method,
 		"user_agent": request.Header.Get("user-agent")}).Info("handled request")
+	h.mutex.Unlock()
 }
 
 func (h *indexHandler) watchBackgroundColor() {
@@ -87,8 +87,9 @@ func (h *indexHandler) watchBackgroundColor() {
 					"new_value": newValue}).Info("background color changed")
 
 				h.mutex.Lock()
-				defer h.mutex.Unlock()
 				h.backgroundColor = newValue
+				h.mutex.Unlock()
+				break
 			}
 		}
 	}
