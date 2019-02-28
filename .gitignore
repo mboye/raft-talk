@@ -1,2 +1,3 @@
 *.etcd
 leader-election-app/bin
+bin

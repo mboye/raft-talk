@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/mboye/raft-talk/demo-app/indexhandler"
+	"github.com/mboye/raft-talk/etcd-demo/app/indexhandler"
 	log "github.com/sirupsen/logrus"
 	"go.etcd.io/etcd/clientv3"
 )
